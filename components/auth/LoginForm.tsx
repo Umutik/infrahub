@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
+import { loginAction } from "@/app/(auth)/login/actions";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -13,11 +14,15 @@ export default function LoginForm() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError("");
     setLoading(true);
+    setError("");
 
     try {
-      setError("Login action is not connected yet");
+      const result = await loginAction(email, password);
+
+      if (result?.error) {
+        setError(result.error);
+      }
     } finally {
       setLoading(false);
     }
