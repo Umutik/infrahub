@@ -6,7 +6,12 @@ import Input from "@/components/ui/Input";
 import Select from "@/components/ui/Select";
 import Textarea from "@/components/ui/Textarea";
 import Button from "@/components/ui/Button";
-import { ASSET_TYPES, ENVIRONMENTS, STATUS_OPTIONS } from "@/lib/constants";
+import {
+  ASSET_TYPES,
+  ENVIRONMENTS,
+  STATUS_OPTIONS,
+  STATUS_LABELS,
+} from "@/lib/constants";
 import type { AssetRow } from "@/types/database.types";
 
 export type AssetFormData = {
@@ -151,7 +156,7 @@ export default function AssetForm({
         >
           {STATUS_OPTIONS.map((option) => (
             <option key={option} value={option}>
-              {option}
+              {STATUS_LABELS[option]}
             </option>
           ))}
         </Select>
