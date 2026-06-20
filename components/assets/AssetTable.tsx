@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { AssetRow } from "@/types/database.types";
 import StatusBadge from "@/components/assets/StatusBadge";
+import DeleteButton from "@/components/assets/DeleteButton";
 
 interface AssetTableProps {
   assets: AssetRow[];
@@ -67,12 +68,11 @@ export default function AssetTable({ assets }: AssetTableProps) {
                   >
                     Edit
                   </Link>
-                  <button
-                    type="button"
-                    className="text-red-600 hover:underline"
-                  >
-                    Delete
-                  </button>
+                  <DeleteButton
+                    assetId={asset.id}
+                    assetName={asset.asset_name}
+                    redirectTo="/assets"
+                  />
                 </div>
               </td>
             </tr>

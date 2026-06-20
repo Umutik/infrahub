@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAssetById } from "@/services/assetService";
 import AssetDetail from "@/components/assets/AssetDetail";
+import DeleteButton from "@/components/assets/DeleteButton";
 import type { AssetRow } from "@/types/database.types";
 
 export default async function AssetDetailPage({
@@ -34,7 +35,7 @@ export default async function AssetDetailPage({
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
+      <div className="mb-6 flex items-center justify-between">
         <div>
           <Link
             href="/assets"
@@ -42,8 +43,12 @@ export default async function AssetDetailPage({
           >
             ← Back to Assets
           </Link>
-          <h1 className="mt-2 text-2xl font-bold">{asset.asset_name}</h1>
+
+          <h1 className="mt-2 text-2xl font-bold">
+            {asset.asset_name}
+          </h1>
         </div>
+
         <div className="flex items-center gap-3">
           <Link
             href={`/assets/${id}/edit`}
@@ -51,12 +56,12 @@ export default async function AssetDetailPage({
           >
             Edit Asset
           </Link>
-          <button
-            type="button"
-            className="rounded-md border border-red-600 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50"
-          >
-            Delete
-          </button>
+
+          <DeleteButton
+            assetId={asset.id}
+            assetName={asset.asset_name}
+            redirectTo="/assets"
+          />
         </div>
       </div>
 
