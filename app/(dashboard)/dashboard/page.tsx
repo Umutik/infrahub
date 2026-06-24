@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { getAssetStats, getRecentAssets } from "@/services/assetService";
 import StatCard from "@/components/dashboard/StatCard";
 import RecentAssetsTable from "@/components/dashboard/RecentAssetsTable";
@@ -24,16 +22,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <Link
-          href="/assets/new"
-          className="inline-flex items-center rounded-lg bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"
-        >
-          + New Asset
-        </Link>
-      </div>
-
       {stats.total === 0 ? (
         <EmptyDashboard />
       ) : (
