@@ -79,3 +79,48 @@
 * Browser Network tab helps debug API requests
 * Browser Console helps identify frontend errors
 * Supabase logs help identify database issues
+
+## Dashboard
+
+* Dashboards often require aggregate data rather than full records
+* Statistics can be calculated on the server before rendering the page
+* Empty states should be designed intentionally and tested
+* Dashboard pages often act as the main entry point into an application
+
+## Server Components
+
+* Server Components render on the server before HTML reaches the browser
+* Server Components can query databases directly without creating API endpoints
+* Server Components cannot use useState or useEffect
+* Server Components reduce client-side requests and improve performance
+* Promise.all() allows multiple independent queries to run in parallel
+* Parallel queries are usually faster than awaiting requests one by one
+
+## Performance
+
+* Not every page needs client-side fetching
+* Browser Network tools can verify whether data is loaded server-side or client-side
+* Avoid unnecessary request waterfalls by loading independent data in parallel
+* Rendering data on the server can improve initial page load time
+
+## UI Components
+
+* Small reusable components make pages easier to maintain
+* A component should have a single responsibility
+* Reusing existing components (StatusBadge, Button) keeps the UI consistent
+* Separate empty-state components help simplify page logic
+
+## Responsive Design
+
+* Layouts should be tested on mobile, tablet, and desktop screen sizes
+* Tables should scroll horizontally on small screens instead of breaking layouts
+* CSS grid can adapt layouts using responsive Tailwind classes
+* Responsive testing should be part of QA, not an afterthought
+
+## QA
+
+* Dashboard statistics should be validated against database records
+* Empty states require dedicated test cases
+* Network tab verification can confirm server-side rendering behavior
+* Manual QA should verify navigation paths, counts, links, and data accuracy
+* Testing should include create, edit, delete, and status-change scenarios
