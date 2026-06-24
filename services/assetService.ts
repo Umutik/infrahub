@@ -85,3 +85,64 @@ export async function deleteAsset(id: string): Promise<void> {
     throw new Error(`Failed to delete asset ${id}: ${error.message}`);
   }
 }
+
+export async function getAssetStats(): Promise<{
+  total: number;
+  active: number;
+  inactive: number;
+  retired: number;
+  maintenance: number;
+}> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.from("assets").select("status");
+
+  if (error) {
+    throw new Error(`Failed to fetch asset stats: ${error.message}`);
+  }
+
+  const stats = {
+    total: 0,
+    active: 0,
+    inactive: 0,
+    retired: 0,
+    maintenance: 0,
+  };
+
+  for (const asset of data ?? []) {
+    stats.total += 1;
+
+    switch (asset.status) {
+      case "active":
+        stats.active += 1;
+        break;
+      case "inactive":
+        stats.inactive += 1;
+        break;
+      case "retired":
+        stats.retired += 1;
+        break;
+      case "maintenance":
+        stats.maintenance += 1;
+        break;
+    }
+  }
+
+  return stats;
+}
+
+export async function getRecentAssets(limit: number = 5): Promise<AssetRow[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("assets")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    throw new Error(`Failed to fetch recent assets: ${error.message}`);
+  }
+
+  return data ?? [];
+}
