@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import type { AssetFilters } from "@/lib/searchParams";
 import type {
   AssetRow,
   AssetInsert,
@@ -129,6 +130,59 @@ export async function getAssetStats(): Promise<{
   }
 
   return stats;
+}
+
+export async function getFilteredAssets(filters: AssetFilters): Promise<{
+  assets: AssetRow[];
+  total: number;
+}> {
+  const supabase = await createClient();
+
+  const PAGE_SIZE = 10;
+
+  let query = supabase.from("assets").select("*", { count: "exact" });
+
+  if (filters.search) {
+    query = query.ilike("asset_name", `%${filters.search}%`);
+  }
+
+  if (filters.status) {
+    query = query.eq("status", filters.status);
+  }
+
+  if (filters.asset_type) {
+    query = query.eq("asset_type", filters.asset_type);
+  }
+
+  if (filters.environment) {
+    query = query.eq("environment", filters.environment);
+  }
+
+  const allowedSortColumns = ["asset_name", "created_at", "status"];
+  const sortColumn =
+    filters.sort && allowedSortColumns.includes(filters.sort)
+      ? filters.sort
+      : "created_at";
+  const ascending = filters.order === "asc";
+
+  query = query.order(sortColumn, { ascending });
+
+  const page = Math.max(1, filters.page ?? 1);
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+
+  query = query.range(from, to);
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return {
+    assets: data ?? [],
+    total: count ?? 0,
+  };
 }
 
 export async function getRecentAssets(limit: number = 5): Promise<AssetRow[]> {
