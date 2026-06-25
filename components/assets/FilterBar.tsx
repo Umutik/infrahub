@@ -9,6 +9,8 @@ type FilterBarProps = {
   currentEnvironment?: string;
 };
 
+type FilterKey = "status" | "asset_type" | "environment";
+
 export default function FilterBar({
   currentStatus,
   currentAssetType,
@@ -18,7 +20,7 @@ export default function FilterBar({
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const updateFilter = (key: string, value: string) => {
+  const updateFilter = (key: FilterKey, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (value) {
