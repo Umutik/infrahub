@@ -22,29 +22,31 @@ export default function SearchBar({ defaultValue }: SearchBarProps) {
   // Debounce search updates
   useEffect(() => {
     const timer = setTimeout(() => {
+      const trimmedValue = value.trim();
+      const currentSearch = searchParams.get("search") ?? "";
+  
+      // Do nothing if the search value did not actually change.
+      // This prevents SearchBar from resetting page=1 when Pagination changes page.
+      if (trimmedValue === currentSearch) {
+        return;
+      }
+  
       const params = new URLSearchParams(searchParams.toString());
-
-      if (value.trim()) {
-        params.set("search", value.trim());
+  
+      if (trimmedValue) {
+        params.set("search", trimmedValue);
       } else {
         params.delete("search");
       }
-
-      // Reset pagination whenever the search changes
+  
       params.set("page", "1");
-
+  
       const queryString = params.toString();
-
       const nextUrl = queryString ? `${pathname}?${queryString}` : pathname;
-      const currentUrl = searchParams.toString()
-        ? `${pathname}?${searchParams.toString()}`
-        : pathname;
-      
-      if (nextUrl !== currentUrl) {
-        router.push(nextUrl);
-      }
+  
+      router.push(nextUrl);
     }, 400);
-
+  
     return () => clearTimeout(timer);
   }, [value, pathname, router, searchParams]);
 

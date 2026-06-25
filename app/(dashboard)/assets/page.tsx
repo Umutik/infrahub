@@ -4,6 +4,7 @@ import { parseSearchParams } from "@/lib/searchParams";
 import AssetTable from "@/components/assets/AssetTable";
 import SearchBar from "@/components/assets/SearchBar";
 import FilterBar from "@/components/assets/FilterBar";
+import Pagination from "@/components/assets/Pagination";
 
 const PAGE_SIZE = 10;
 
@@ -28,6 +29,7 @@ export default async function AssetsPage({
   }
 
   const currentPage = filters.page ?? 1;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
   const start = total === 0 ? 0 : (currentPage - 1) * PAGE_SIZE + 1;
   const end = Math.min(currentPage * PAGE_SIZE, total);
 
@@ -82,7 +84,13 @@ export default async function AssetsPage({
         />
       )}
 
-      {/* Pagination will be added in Step 08 */}
+      {total > 0 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={total}
+        />
+      )}
     </div>
   );
 }
