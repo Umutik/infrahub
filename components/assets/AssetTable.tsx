@@ -2,12 +2,19 @@ import Link from "next/link";
 import type { AssetRow } from "@/types/database.types";
 import StatusBadge from "@/components/assets/StatusBadge";
 import DeleteButton from "@/components/assets/DeleteButton";
+import SortableColumn from "@/components/assets/SortableColumn";
 
 interface AssetTableProps {
   assets: AssetRow[];
+  currentSort: string;
+  currentOrder: string;
 }
 
-export default function AssetTable({ assets }: AssetTableProps) {
+export default function AssetTable({
+  assets,
+  currentSort,
+  currentOrder,
+}: AssetTableProps) {
   if (assets.length === 0) {
     return (
       <div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow">
@@ -29,11 +36,32 @@ export default function AssetTable({ assets }: AssetTableProps) {
       <table className="w-full text-left text-sm">
         <thead className="bg-gray-900 text-xs uppercase text-white">
           <tr>
-            <th className="px-4 py-3">Name</th>
+            <th className="px-4 py-3">
+              <SortableColumn
+                column="asset_name"
+                label="Name"
+                currentSort={currentSort}
+                currentOrder={currentOrder}
+              />
+            </th>
             <th className="px-4 py-3">Type</th>
             <th className="px-4 py-3">Environment</th>
-            <th className="px-4 py-3">Status</th>
-            <th className="px-4 py-3">Created</th>
+            <th className="px-4 py-3">
+              <SortableColumn
+                column="status"
+                label="Status"
+                currentSort={currentSort}
+                currentOrder={currentOrder}
+              />
+            </th>
+            <th className="px-4 py-3">
+              <SortableColumn
+                column="created_at"
+                label="Created"
+                currentSort={currentSort}
+                currentOrder={currentOrder}
+              />
+            </th>
             <th className="px-4 py-3">Actions</th>
           </tr>
         </thead>

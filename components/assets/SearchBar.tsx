@@ -35,9 +35,14 @@ export default function SearchBar({ defaultValue }: SearchBarProps) {
 
       const queryString = params.toString();
 
-      router.push(
-        queryString ? `${pathname}?${queryString}` : pathname
-      );
+      const nextUrl = queryString ? `${pathname}?${queryString}` : pathname;
+      const currentUrl = searchParams.toString()
+        ? `${pathname}?${searchParams.toString()}`
+        : pathname;
+      
+      if (nextUrl !== currentUrl) {
+        router.push(nextUrl);
+      }
     }, 400);
 
     return () => clearTimeout(timer);

@@ -25,6 +25,7 @@ export default function SortableColumn({
     const params = new URLSearchParams(searchParams.toString());
 
     if (isActive) {
+      params.set("sort", column);
       params.set("order", currentOrder === "asc" ? "desc" : "asc");
     } else {
       params.set("sort", column);
@@ -46,7 +47,7 @@ export default function SortableColumn({
       <span>↓</span>
     )
   ) : (
-    <span className="text-gray-400">↕</span>
+    <span className="text-gray-500">↕</span>
   );
 
   return (
@@ -54,7 +55,7 @@ export default function SortableColumn({
       type="button"
       onClick={handleClick}
       className={`inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wider hover:underline ${
-        isActive ? "text-gray-900" : "text-gray-500"
+        isActive ? "text-white" : "text-gray-300"
       }`}
     >
       {label}
