@@ -5,6 +5,7 @@ import AssetTable from "@/components/assets/AssetTable";
 import SearchBar from "@/components/assets/SearchBar";
 import FilterBar from "@/components/assets/FilterBar";
 import Pagination from "@/components/assets/Pagination";
+import AssetsEmptyState from "@/components/assets/AssetsEmptyState";
 
 const PAGE_SIZE = 10;
 
@@ -67,15 +68,9 @@ export default async function AssetsPage({
       </p>
 
       {total === 0 && hasActiveFilters ? (
-        <div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow">
-          <p className="text-gray-500">No assets match your filters.</p>
-        </div>
+        <AssetsEmptyState hasFilters={true} />
       ) : total === 0 ? (
-        <div className="rounded-lg border border-gray-200 bg-white p-12 text-center shadow">
-          <p className="text-gray-500">
-            No assets found. Create your first asset to get started.
-          </p>
-        </div>
+        <AssetsEmptyState hasFilters={false} />
       ) : (
         <AssetTable
           assets={assets}
