@@ -124,3 +124,55 @@
 * Network tab verification can confirm server-side rendering behavior
 * Manual QA should verify navigation paths, counts, links, and data accuracy
 * Testing should include create, edit, delete, and status-change scenarios
+
+## URL State
+
+* URL query parameters can represent application state
+* Search, filters, sorting, and pagination can all be synchronized with the URL
+* URL-based state allows users to bookmark and share filtered views
+* Updating URL parameters should preserve unrelated parameters whenever possible
+
+## Search & Filtering
+
+* Debounced search reduces unnecessary page reloads
+* Search should reset pagination to the first page
+* Server-side filtering scales better than filtering large datasets in the browser
+* Empty states should distinguish between "no data" and "no matching results"
+
+## Pagination
+
+* Pagination should limit database queries using ranges
+* Pagination should preserve search, filter, and sort parameters
+* Pagination controls should not render when only one page exists
+* Changing filters or search should reset pagination to page 1
+
+## Sorting
+
+* Sorting should validate allowed database columns before querying
+* Sort direction should toggle between ascending and descending
+* Visual indicators help users understand the current sort order
+
+* ilike enables case-insensitive text searches
+* eq filters exact column matches
+* order controls database sorting
+* range retrieves only a subset of rows for pagination
+* count: "exact" can return the total number of matching records
+
+## Debugging
+
+* Integration bugs often appear only when multiple components work together
+* Browser Network tools help identify unexpected repeated requests
+* Compare the current URL and the next URL before triggering router.push()
+* Small defensive checks can prevent unnecessary re-renders and navigation loops
+
+## Architecture
+
+* Server Components should fetch data and pass it to Client Components
+* Client Components should handle user interactions, not database access
+* Keeping data fetching centralized simplifies maintenance
+* Reusable components reduce duplication across pages
+
+## Integration
+
+* Features that work correctly in isolation can still fail when combined
+* Always test search, filtering, sorting, and pagination together—not just individually
