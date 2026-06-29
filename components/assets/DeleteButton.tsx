@@ -48,6 +48,7 @@ export default function DeleteButton({
       type="button"
       onClick={handleDelete}
       disabled={isDeleting}
+      aria-label={`Delete ${assetName}`}
       className="inline-flex h-11 items-center justify-center rounded-full border border-red-600 bg-white px-5 text-sm font-medium text-red-600 transition-colors hover:bg-red-600 hover:text-white disabled:opacity-50"
     >
       {isDeleting ? "Deleting..." : "Delete"}

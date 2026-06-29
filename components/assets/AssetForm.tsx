@@ -108,6 +108,7 @@ export default function AssetForm({
         <div className="md:col-span-2">
           <Input
             label="Asset Name"
+            name="asset_name"
             required
             minLength={2}
             maxLength={120}
@@ -119,6 +120,7 @@ export default function AssetForm({
 
         <Select
           label="Asset Type"
+          name="asset_type"
           required
           value={assetType}
           onChange={(event) => setAssetType(event.target.value)}
@@ -134,6 +136,7 @@ export default function AssetForm({
 
         <Select
           label="Environment"
+          name="environment"
           required
           value={environment}
           onChange={(event) => setEnvironment(event.target.value)}
@@ -149,6 +152,7 @@ export default function AssetForm({
 
         <Select
           label="Status"
+          name="status"
           required
           value={status}
           onChange={(event) => setStatus(event.target.value)}
@@ -164,6 +168,7 @@ export default function AssetForm({
         <div className="md:col-span-2">
           <Textarea
             label="Description"
+            name="description"
             rows={4}
             maxLength={500}
             value={description}

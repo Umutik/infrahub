@@ -49,6 +49,7 @@ export default function FilterBar({
       <select
         value={currentStatus ?? ""}
         onChange={(event) => updateFilter("status", event.target.value)}
+        aria-label="Filter by status"
         className={selectClassName}
       >
         <option value="">All Statuses</option>
@@ -62,6 +63,7 @@ export default function FilterBar({
       <select
         value={currentAssetType ?? ""}
         onChange={(event) => updateFilter("asset_type", event.target.value)}
+        aria-label="Filter by asset type"
         className={selectClassName}
       >
         <option value="">All Types</option>
@@ -75,6 +77,7 @@ export default function FilterBar({
       <select
         value={currentEnvironment ?? ""}
         onChange={(event) => updateFilter("environment", event.target.value)}
+        aria-label="Filter by environment"
         className={selectClassName}
       >
         <option value="">All Environments</option>

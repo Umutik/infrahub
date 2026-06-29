@@ -36,7 +36,7 @@ export default function AssetTable({
       <table className="w-full text-left text-sm">
         <thead className="bg-gray-900 text-xs uppercase text-white">
           <tr>
-            <th className="px-4 py-3">
+            <th scope="col" className="px-4 py-3">
               <SortableColumn
                 column="asset_name"
                 label="Name"
@@ -44,9 +44,9 @@ export default function AssetTable({
                 currentOrder={currentOrder}
               />
             </th>
-            <th className="px-4 py-3">Type</th>
-            <th className="px-4 py-3">Environment</th>
-            <th className="px-4 py-3">
+            <th scope="col" className="px-4 py-3">Type</th>
+            <th scope="col" className="px-4 py-3">Environment</th>
+            <th scope="col" className="px-4 py-3">
               <SortableColumn
                 column="status"
                 label="Status"
@@ -54,7 +54,7 @@ export default function AssetTable({
                 currentOrder={currentOrder}
               />
             </th>
-            <th className="px-4 py-3">
+            <th scope="col" className="px-4 py-3">
               <SortableColumn
                 column="created_at"
                 label="Created"
@@ -62,7 +62,7 @@ export default function AssetTable({
                 currentOrder={currentOrder}
               />
             </th>
-            <th className="px-4 py-3">Actions</th>
+            <th scope="col" className="px-4 py-3">Actions</th>
           </tr>
         </thead>
         <tbody>

@@ -27,10 +27,10 @@ export default function RecentAssetsTable({ assets }: RecentAssetsTableProps) {
       <table className="w-full text-left text-sm">
         <thead>
           <tr className="border-b border-gray-200 text-xs uppercase tracking-wide text-gray-500">
-            <th className="px-6 py-3 font-medium">Name</th>
-            <th className="px-6 py-3 font-medium">Type</th>
-            <th className="px-6 py-3 font-medium">Status</th>
-            <th className="px-6 py-3 font-medium">Created</th>
+            <th scope="col" className="px-6 py-3 font-medium">Name</th>
+            <th scope="col" className="px-6 py-3 font-medium">Type</th>
+            <th scope="col" className="px-6 py-3 font-medium">Status</th>
+            <th scope="col" className="px-6 py-3 font-medium">Created</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-100">
