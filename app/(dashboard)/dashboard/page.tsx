@@ -27,13 +27,29 @@ export default async function DashboardPage() {
       ) : (
         <>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Total Assets" count={stats.total} variant="default" />
-            <StatCard label="Active" count={stats.active} variant="success" />
-            <StatCard label="Retired" count={stats.retired} variant="danger" />
+            <StatCard
+              label="Total Assets"
+              count={stats.total}
+              variant="default"
+              testId="stat-total-assets"
+            />
+            <StatCard
+              label="Active"
+              count={stats.active}
+              variant="success"
+              testId="stat-active-assets"
+            />
+            <StatCard
+              label="Retired"
+              count={stats.retired}
+              variant="danger"
+              testId="stat-retired-assets"
+            />
             <StatCard
               label="Maintenance"
               count={stats.maintenance}
               variant="warning"
+              testId="stat-maintenance-assets"
             />
           </div>
 

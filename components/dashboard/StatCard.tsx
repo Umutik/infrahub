@@ -7,6 +7,7 @@ interface StatCardProps {
   count: number;
   variant?: StatCardVariant;
   icon?: ReactNode;
+  testId?: string;
 }
 
 const ICON_VARIANT_CLASSES: Record<StatCardVariant, string> = {
@@ -21,9 +22,13 @@ export default function StatCard({
   count,
   variant = "default",
   icon,
+  testId,
 }: StatCardProps) {
   return (
-    <div className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
+    <div
+      data-testid={testId}
+      className="flex items-center gap-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm"
+    >
       {icon ? (
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-full ${ICON_VARIANT_CLASSES[variant]}`}
