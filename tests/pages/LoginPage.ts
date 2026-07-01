@@ -10,7 +10,7 @@ export class LoginPage {
     this.emailInput = page.getByLabel('Email')
     this.passwordInput = page.getByLabel('Password')
     this.signInButton = page.getByRole('button', { name: 'Sign In' })
-    this.errorMessage = page.getByRole('alert')
+    this.errorMessage = page.locator('form').getByRole('alert')
   }
 
   async goto() {
