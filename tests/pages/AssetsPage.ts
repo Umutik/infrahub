@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test'
+import { expect, Locator, Page } from '@playwright/test'
 
 export class AssetsPage {
   readonly searchInput: Locator
@@ -6,6 +6,7 @@ export class AssetsPage {
   readonly assetTypeFilter: Locator
   readonly environmentFilter: Locator
   readonly assetsTable: Locator
+  readonly assetRows: Locator
   readonly clearFiltersButton: Locator
   readonly newAssetLink: Locator
 
@@ -15,6 +16,9 @@ export class AssetsPage {
     this.assetTypeFilter = page.getByLabel('Filter by asset type')
     this.environmentFilter = page.getByLabel('Filter by environment')
     this.assetsTable = page.getByRole('table')
+    this.assetRows = this.assetsTable.getByRole('row').filter({
+      has: page.getByRole('cell'),
+    })
     this.clearFiltersButton = page.getByRole('button', {
       name: 'Clear filters',
     })
@@ -38,6 +42,14 @@ export class AssetsPage {
     await this.page.waitForTimeout(450)
   }
 
+  async filterByStatus(status: string) {
+    await this.statusFilter.selectOption(status)
+  }
+
+  async filterByAssetType(type: string) {
+    await this.assetTypeFilter.selectOption(type)
+  }
+
   async clearFilters() {
     await this.clearFiltersButton.click()
   }
@@ -48,6 +60,14 @@ export class AssetsPage {
 
   getRowByAssetName(name: string): Locator {
     return this.assetsTable.getByRole('row').filter({ hasText: name })
+  }
+
+  getTypeCell(row: Locator): Locator {
+    return row.getByRole('cell').nth(1)
+  }
+
+  getStatusCell(row: Locator): Locator {
+    return row.getByRole('cell').nth(3)
   }
 
   async expectAssetVisible(name: string) {
