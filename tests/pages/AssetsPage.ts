@@ -46,8 +46,12 @@ export class AssetsPage {
     await this.statusFilter.selectOption(status)
   }
 
-  async filterByAssetType(type: string) {
+  async filterByType(type: string) {
     await this.assetTypeFilter.selectOption(type)
+  }
+
+  async filterByEnvironment(environment: string) {
+    await this.environmentFilter.selectOption(environment)
   }
 
   async clearFilters() {
@@ -64,6 +68,10 @@ export class AssetsPage {
 
   getTypeCell(row: Locator): Locator {
     return row.getByRole('cell').nth(1)
+  }
+
+  getEnvironmentCell(row: Locator): Locator {
+    return row.getByRole('cell').nth(2)
   }
 
   getStatusCell(row: Locator): Locator {

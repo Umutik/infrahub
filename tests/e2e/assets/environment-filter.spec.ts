@@ -5,29 +5,30 @@ import { LoginPage } from '../../pages/LoginPage'
 const EMAIL = process.env.TEST_USER_EMAIL ?? 'playwright@infrahub.dev'
 const PASSWORD = process.env.TEST_USER_PASSWORD ?? 'PlaywrightPass123!'
 
-test.describe('Asset Page Asset Type Filter', () => {
+test.describe('Asset Page Environment Filter', () => {
     test.beforeEach(async ({ page }) => {
         const loginPage = new LoginPage(page)
         await loginPage.goto()
         await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
     })
 
-    test('filters assets by server type', async ({ page }) => {
+    test('filters assets by environment', async ({ page }) => {
         const assetsPage = new AssetsPage(page)
         await assetsPage.goto()
         await assetsPage.expectLoaded()
-        await assetsPage.filterByType('Server')
+        await assetsPage.filterByEnvironment('Development')
 
-        await expect(assetsPage.assetTypeFilter).toHaveValue('Server')
+        await expect(assetsPage.environmentFilter).toHaveValue('Development')
 
         const rowCount = await assetsPage.assetRows.count()
         expect(rowCount).toBeGreaterThan(0)
 
         for (let index = 0; index < rowCount; index++) {
             const row = assetsPage.assetRows.nth(index)
-            const typeCell = assetsPage.getTypeCell(row)
+            const environmentCell = assetsPage.getEnvironmentCell(row)
 
-            await expect(typeCell).toHaveText('Server')
+            await expect(environmentCell).toHaveText('Development')
         }
+
     })
 })
