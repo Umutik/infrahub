@@ -55,7 +55,7 @@ export default function FilterBar({
         <option value="">All Statuses</option>
         {STATUS_OPTIONS.map((status) => (
           <option key={status} value={status}>
-            {status}
+            {status.charAt(0).toUpperCase() + status.slice(1)}
           </option>
         ))}
       </select>
