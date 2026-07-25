@@ -10,18 +10,21 @@ export class AssetsPage {
   readonly clearFiltersButton: Locator
   readonly newAssetLink: Locator
 
-  constructor(private page: Page) {
+  constructor(readonly page: Page) {
     this.searchInput = page.getByLabel('Search assets by name')
     this.statusFilter = page.getByLabel('Filter by status')
     this.assetTypeFilter = page.getByLabel('Filter by asset type')
     this.environmentFilter = page.getByLabel('Filter by environment')
     this.assetsTable = page.getByRole('table')
+
     this.assetRows = this.assetsTable.getByRole('row').filter({
       has: page.getByRole('cell'),
     })
+
     this.clearFiltersButton = page.getByRole('button', {
       name: 'Clear filters',
     })
+
     this.newAssetLink = page.getByRole('link', {
       name: '+ New Asset',
     })
@@ -35,6 +38,14 @@ export class AssetsPage {
     await expect(this.searchInput).toBeVisible()
     await expect(this.assetsTable).toBeVisible()
     await expect(this.newAssetLink).toBeVisible()
+  }
+
+  async expectAssetVisible(name: string) {
+    await expect(this.getRowByAssetName(name)).toBeVisible()
+  }
+
+  async expectAssetNotVisible(name: string) {
+    await expect(this.getRowByAssetName(name)).toHaveCount(0)
   }
 
   async searchFor(text: string) {
@@ -63,7 +74,9 @@ export class AssetsPage {
   }
 
   getRowByAssetName(name: string): Locator {
-    return this.assetsTable.getByRole('row').filter({ hasText: name })
+    return this.assetsTable.getByRole('row').filter({
+      hasText: name,
+    })
   }
 
   getTypeCell(row: Locator): Locator {
@@ -76,13 +89,5 @@ export class AssetsPage {
 
   getStatusCell(row: Locator): Locator {
     return row.getByRole('cell').nth(3)
-  }
-
-  async expectAssetVisible(name: string) {
-    await expect(this.getRowByAssetName(name)).toBeVisible()
-  }
-
-  async expectAssetNotVisible(name: string) {
-    await expect(this.getRowByAssetName(name)).toHaveCount(0)
   }
 }
