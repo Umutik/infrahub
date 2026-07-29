@@ -1,6 +1,7 @@
 import { test } from '@playwright/test'
 import { LoginPage } from '../../pages/LoginPage'
 import { AssetsPage } from '../../pages/AssetsPage'
+import { AssetFormPage } from '../../pages/AssetFormPage'
 
 const EMAIL = process.env.TEST_USER_EMAIL ?? 'playwright@infrahub.dev'
 const PASSWORD = process.env.TEST_USER_PASSWORD ?? 'PlaywrightPass123!'
@@ -15,13 +16,25 @@ test.describe('Assets Page Search', () => {
 
   test('search filters assets by name', async ({ page }) => {
     const assetsPage = new AssetsPage(page)
+    const assetFormPage = new AssetFormPage(page)
 
-    await assetsPage.goto()
-    await assetsPage.expectLoaded()
+    const assetName = `PW-SEARCH-${Date.now()}`
 
-    await assetsPage.searchFor('db-prod')
+    await assetFormPage.goto()
+    await assetFormPage.fillForm({
+        name: assetName,
+        type: 'Router',
+        environment: 'Production',
+        status: 'active',
+        description: 'Created for search test',
+    })
+    await assetFormPage.submitCreate()
 
-    await assetsPage.expectAssetVisible('db-prod-02')
+    await page.reload()
+
+    await assetsPage.searchFor(assetName)
+
+    await assetsPage.expectAssetVisible(assetName)
     await assetsPage.expectAssetNotVisible('test03')
   })
 })

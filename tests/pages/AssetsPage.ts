@@ -73,9 +73,39 @@ export class AssetsPage {
     await this.newAssetLink.click()
   }
 
+  async clickEditForAsset(name: string) {
+    const row = this.getRowByAssetName(name)
+  
+    await row.getByRole('link', {
+      name: 'Edit',
+      exact: true,
+    }).click()
+  }
+
+  async deleteAsset(name: string) {
+    const row = this.getRowByAssetName(name)
+  
+    this.page.once('dialog', dialog => dialog.accept())
+  
+    const deleteResponsePromise = this.page.waitForResponse(response =>
+      response.request().method() === 'DELETE'
+    )
+  
+    await row.getByRole('button', {
+      name: `Delete ${name}`,
+      exact: true,
+    }).click()
+  
+    const response = await deleteResponsePromise
+    expect(response.ok()).toBeTruthy()
+  }
+
   getRowByAssetName(name: string): Locator {
     return this.assetsTable.getByRole('row').filter({
-      hasText: name,
+      has: this.page.getByRole('link', {
+        name,
+        exact: true,
+      }),
     })
   }
 
