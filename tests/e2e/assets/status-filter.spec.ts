@@ -20,7 +20,7 @@ test.describe('Asset Page Status Filter', () => {
         await assetsPage.expectLoaded()
         await assetsPage.filterByStatus('active')
       
-        await expect(assetsPage.statusFilter).toHaveValue('active')
+        await expect(assetsPage.assetRows.first()).toBeVisible()
       
         const rowCount = await assetsPage.assetRows.count()
       

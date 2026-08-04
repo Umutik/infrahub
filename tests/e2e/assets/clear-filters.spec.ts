@@ -29,6 +29,8 @@ test.describe('Assets Page Clear Filters', () => {
         await assetsPage.filterByStatus('active')
         await expect(assetsPage.statusFilter).toHaveValue('active')
 
+        await expect(assetsPage.assetRows.first()).toBeVisible()
+
         const filteredRowCount = await assetsPage.assetRows.count()
         expect(filteredRowCount).toBeGreaterThan(0)
 
@@ -46,8 +48,7 @@ test.describe('Assets Page Clear Filters', () => {
         await expect(assetsPage.environmentFilter).toHaveValue('')
         await expect(assetsPage.assetTypeFilter).toHaveValue('')
 
-        const clearedRowCount = await assetsPage.assetRows.count()
-        expect(clearedRowCount).toBe(originalRowCount)
+        await expect(assetsPage.assetRows).toHaveCount(originalRowCount)
 
     })
 })

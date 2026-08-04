@@ -1,37 +1,42 @@
 import { test } from '@playwright/test'
 import { LoginPage } from '../../pages/LoginPage'
+import { DashboardPage } from '../../pages/DashboardPage'
 import { AssetsPage } from '../../pages/AssetsPage'
 import { AssetFormPage } from '../../pages/AssetFormPage'
+
 
 const EMAIL = process.env.TEST_USER_EMAIL ?? 'playwright@infrahub.dev'
 const PASSWORD = process.env.TEST_USER_PASSWORD ?? 'PlaywrightPass123!'
 
-test.describe('Assets page Delete Asset', () => {
+test.describe('Smoke Test', () => {
     test.beforeEach(async ({ page }) => {
         const loginPage = new LoginPage(page)
-
         await loginPage.goto()
         await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
     })
 
-    test('deletes an existing asset', async ({ page }) => {
+    test( 'user can login, create and delete an asset', async ({ page }) => {
         const assetsPage = new AssetsPage(page)
         const assetFormPage = new AssetFormPage(page)
+        const dashboardPage = new DashboardPage(page)
+        await dashboardPage.expectLoaded()
+        await dashboardPage.expectStatsVisible()
+        await assetsPage.goto()
+        await assetsPage.expectLoaded()
 
-        const assetName = `PW-DELETE-${Date.now()}`
-
+        const assetName = `PW-SMOKE-${Date.now()}`
         await assetFormPage.goto()
         await assetFormPage.fillForm({
             name: assetName,
             type: 'Router',
-            environment: 'Staging',
+            environment: 'Production',
             status: 'active',
-            description: 'This asset was created for deletion test'
+            description: 'Created for smoke test',
         })
 
         await assetFormPage.submitCreate()
         await assetsPage.expectAssetVisible(assetName)
-
+       
         await assetsPage.deleteAsset(assetName)
         await assetsPage.expectAssetNotVisible(assetName)
     })

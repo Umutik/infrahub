@@ -20,8 +20,8 @@ test.describe('Asset Page Asset Type Filter', () => {
 
         await expect(assetsPage.assetTypeFilter).toHaveValue('Server')
 
+        await expect(assetsPage.assetRows.first()).toBeVisible()
         const rowCount = await assetsPage.assetRows.count()
-        expect(rowCount).toBeGreaterThan(0)
 
         for (let index = 0; index < rowCount; index++) {
             const row = assetsPage.assetRows.nth(index)

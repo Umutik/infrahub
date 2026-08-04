@@ -10,7 +10,7 @@ export class AssetsPage {
   readonly clearFiltersButton: Locator
   readonly newAssetLink: Locator
 
-  constructor(readonly page: Page) {
+  constructor(private readonly page: Page) {
     this.searchInput = page.getByLabel('Search assets by name')
     this.statusFilter = page.getByLabel('Filter by status')
     this.assetTypeFilter = page.getByLabel('Filter by asset type')
@@ -50,7 +50,7 @@ export class AssetsPage {
 
   async searchFor(text: string) {
     await this.searchInput.fill(text)
-    await this.page.waitForTimeout(450)
+    await expect(this.searchInput).toHaveValue(text)
   }
 
   async filterByStatus(status: string) {
@@ -88,7 +88,8 @@ export class AssetsPage {
     this.page.once('dialog', dialog => dialog.accept())
   
     const deleteResponsePromise = this.page.waitForResponse(response =>
-      response.request().method() === 'DELETE'
+      response.request().method() === 'DELETE' &&
+      response.url().includes('/api/assets')
     )
   
     await row.getByRole('button', {

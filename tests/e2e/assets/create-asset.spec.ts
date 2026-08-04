@@ -31,8 +31,6 @@ test.describe('Assets Page Create Asset', () => {
           })
           
           await assetFormPage.submitCreate()
-          await page.reload()
-          
           await assetsPage.expectAssetVisible(assetName)
 
     })

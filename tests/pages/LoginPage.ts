@@ -6,7 +6,7 @@ export class LoginPage {
   readonly signInButton: Locator
   readonly errorMessage: Locator
 
-  constructor(private page: Page) {
+  constructor(private readonly page: Page) {
     this.emailInput = page.getByLabel('Email')
     this.passwordInput = page.getByLabel('Password')
     this.signInButton = page.getByRole('button', { name: 'Sign In' })
@@ -40,8 +40,7 @@ export class LoginPage {
     await this.page.waitForURL('**/dashboard')
   }
 
-  async isOnLoginPage() {
-    await this.page.waitForURL('**/login')
+  isOnLoginPage(): boolean {
     return this.page.url().includes('/login')
   }
 }

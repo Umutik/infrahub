@@ -1,6 +1,6 @@
 import { Locator, Page, expect } from '@playwright/test'
 
- export type AssetFormData = {
+export type AssetFormData = {
     name: string
     type: string
     environment: string
@@ -19,7 +19,7 @@ export class AssetFormPage {
     readonly cancelButton: Locator
 
 
-    constructor(readonly page: Page) {
+    constructor(private readonly page: Page) {
         this.nameInput = page.getByLabel('Asset Name')
         this.assetTypeField = page.getByLabel('Asset Type')
         this.assetEnvironmentField = page.getByLabel('Environment')
@@ -28,17 +28,17 @@ export class AssetFormPage {
         this.createButton = page.getByRole('button', {
             name: 'Create Asset',
             exact: true,
-          })
-          
-          this.saveChangesButton = page.getByRole('button', {
+        })
+
+        this.saveChangesButton = page.getByRole('button', {
             name: 'Save Changes',
             exact: true,
-          })
-          
-          this.cancelButton = page.getByRole('button', {
+        })
+
+        this.cancelButton = page.getByRole('button', {
             name: 'Cancel',
             exact: true,
-          })
+        })
     }
 
     async goto() {
@@ -54,7 +54,7 @@ export class AssetFormPage {
     }
 
     async expectFormValues(data: AssetFormData) {
-        await expect(this.nameInput).toHaveValue(data.name) 
+        await expect(this.nameInput).toHaveValue(data.name)
         await expect(this.assetTypeField).toHaveValue(data.type)
         await expect(this.assetEnvironmentField).toHaveValue(data.environment)
         await expect(this.assetStatusField).toHaveValue(data.status)
@@ -64,7 +64,7 @@ export class AssetFormPage {
 
     async submitCreate() {
         await this.createButton.click()
-        await this.page.waitForURL('/assets')
+        await this.page.waitForURL(/\/assets$/)
     }
 
     async submitEdit() {

@@ -37,8 +37,6 @@ test.describe('Assets Page Edit Asset', () => {
 
         await assetFormPage.submitCreate()
 
-        await page.reload()
-
         await assetsPage.expectAssetVisible(originalName)
         await assetsPage.clickEditForAsset(originalName)
 
@@ -61,7 +59,6 @@ test.describe('Assets Page Edit Asset', () => {
         await assetFormPage.submitEdit()
 
         await assetsPage.goto()
-        await page.reload()
 
         await assetsPage.expectAssetVisible(updatedName)
         await assetsPage.expectAssetNotVisible(originalName)

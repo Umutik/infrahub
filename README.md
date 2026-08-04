@@ -1,36 +1,133 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# InfraHub
 
-## Getting Started
+InfraHub is a full-stack infrastructure asset management application built as a portfolio project to practice modern QA Automation and full-stack development.
 
-First, run the development server:
+The project includes authentication, asset management, filtering, search, dashboard statistics, and an end-to-end Playwright automation framework following the Page Object Model (POM) pattern.
+
+---
+
+## Tech Stack
+
+### Frontend
+- Next.js 16
+- React
+- TypeScript
+- Tailwind CSS
+
+### Backend
+- Supabase
+- PostgreSQL
+- Supabase Authentication
+
+### Testing
+- Playwright
+- Page Object Model (POM)
+
+---
+
+## Features
+
+- User authentication
+- Dashboard with asset statistics
+- Create, edit, delete assets
+- Search assets
+- Filter by:
+  - Status
+  - Asset Type
+  - Environment
+- Responsive UI
+
+---
+
+## Test Coverage
+
+Playwright end-to-end tests cover:
+
+- Login
+- Dashboard
+- Asset CRUD
+- Search
+- Status filter
+- Asset Type filter
+- Environment filter
+- Clear filters
+- Smoke test
+
+Current suite:
+
+- ✅ 14 Playwright tests
+- ✅ Page Object Model architecture
+- ✅ Independent test data
+- ✅ Smoke test for critical user journey
+
+---
+
+## Running the Project
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the application:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run all Playwright tests:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npx playwright test
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Run smoke tests:
 
-## Learn More
+```bash
+npx playwright test tests/e2e/smoke/smoke.spec.ts
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open the Playwright HTML report:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npx playwright show-report
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```text
+app/
+components/
+lib/
+pages/
+tests/
+  e2e/
+    auth/
+    assets/
+    smoke/
+pages/
+  LoginPage.ts
+  DashboardPage.ts
+  AssetsPage.ts
+  AssetFormPage.ts
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Future Improvements
+
+- GitHub Actions CI
+- Docker support
+- Deployment
+- Device management module
+- Business Services module
+- API test expansion
+
+---
+
+## Author
+
+Built by Uma as a QA Automation portfolio project using Next.js, Supabase, and Playwright.

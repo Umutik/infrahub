@@ -36,6 +36,6 @@ test.describe('Assets Page', () => {
     await assetsPage.goto()
     await assetsPage.searchFor('prod')
 
-    await expect(page).toHaveURL(/search=prod/)
+    await expect(page).toHaveURL(/\/assets\?.*search=prod/)
   })
 })

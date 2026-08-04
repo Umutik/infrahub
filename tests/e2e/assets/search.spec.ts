@@ -18,23 +18,34 @@ test.describe('Assets Page Search', () => {
     const assetsPage = new AssetsPage(page)
     const assetFormPage = new AssetFormPage(page)
 
-    const assetName = `PW-SEARCH-${Date.now()}`
+    const timestamp = Date.now()
+    const matchingAssetName = `PW-SEARCH-MATCH-${timestamp}`
+    const nonMatchingAssetName = `PW-SEARCH-OTHER-${timestamp}`
 
     await assetFormPage.goto()
     await assetFormPage.fillForm({
-        name: assetName,
-        type: 'Router',
-        environment: 'Production',
-        status: 'active',
-        description: 'Created for search test',
+      name: matchingAssetName,
+      type: 'Router',
+      environment: 'Production',
+      status: 'active',
+      description: 'Created as matching search data',
     })
     await assetFormPage.submitCreate()
 
-    await page.reload()
+    await assetFormPage.goto()
+    await assetFormPage.fillForm({
+      name: nonMatchingAssetName,
+      type: 'Switch',
+      environment: 'Staging',
+      status: 'inactive',
+      description: 'Created as non-matching search data',
+    })
+    
+    await assetFormPage.submitCreate()
 
-    await assetsPage.searchFor(assetName)
+    await assetsPage.searchFor(matchingAssetName)
 
-    await assetsPage.expectAssetVisible(assetName)
-    await assetsPage.expectAssetNotVisible('test03')
+    await assetsPage.expectAssetVisible(matchingAssetName)
+    await assetsPage.expectAssetNotVisible(nonMatchingAssetName)
   })
 })
