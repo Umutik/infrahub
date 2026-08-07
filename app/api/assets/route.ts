@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { getAllAssets, createAsset } from "@/services/assetService";
+import { getAllAssets, createAsset } from "@/services/asset.service";
 
 export async function GET() {
   const supabase = await createClient();

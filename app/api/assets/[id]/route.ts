@@ -4,7 +4,7 @@ import {
   getAssetById,
   updateAsset,
   deleteAsset,
-} from "@/services/assetService";
+} from "@/services/asset.service";
 
 export async function GET(
   request: Request,

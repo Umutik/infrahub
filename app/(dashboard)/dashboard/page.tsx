@@ -1,4 +1,4 @@
-import { getAssetStats, getRecentAssets } from "@/services/assetService";
+import { getAssetStats, getRecentAssets } from "@/services/asset.service";
 import StatCard from "@/components/dashboard/StatCard";
 import RecentAssetsTable from "@/components/dashboard/RecentAssetsTable";
 import EmptyDashboard from "@/components/dashboard/EmptyDashboard";

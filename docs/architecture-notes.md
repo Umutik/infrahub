@@ -140,7 +140,7 @@ app/api/assets/[id]/route.ts
 ## Service Layer
 
 ```
-services/assetService.ts
+services/asset.service.ts
 ```
 
 ### CRUD
@@ -475,3 +475,64 @@ Individual components may work correctly in isolation but still conflict when in
 * View/Edit/Delete actions
 * Empty states
 * Result count validation
+
+---
+
+# Playwright Automation (Phase 05)
+
+## Purpose
+
+Phase 05 adds end-to-end automation for the main InfraHub workflows.
+
+The Playwright suite validates:
+
+* Authentication
+* Dashboard loading
+* Asset creation
+* Asset editing
+* Asset deletion
+* Search
+* Status filtering
+* Asset type filtering
+* Environment filtering
+* Clear filters
+* Critical smoke flow
+
+---
+
+## Test Architecture
+
+The automation suite uses the Page Object Model (POM) design pattern.
+
+Page Objects separate:
+
+* Page locators
+* Page actions
+* Test logic
+
+Benefits:
+
+* Reduced duplication
+* Easier maintenance
+* Cleaner test files
+* Centralized locator updates
+* Better reuse across multiple tests
+
+If the UI changes, the related Page Object can usually be updated instead of modifying many test files.
+
+---
+
+## Folder Structure
+
+```text
+tests/
+├── e2e/
+│   ├── auth/
+│   ├── assets/
+│   └── smoke/
+├── pages/
+│   ├── LoginPage.ts
+│   ├── DashboardPage.ts
+│   ├── AssetsPage.ts
+│   └── AssetFormPage.ts
+└── utils/

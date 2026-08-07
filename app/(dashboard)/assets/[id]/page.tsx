@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getAssetById } from "@/services/assetService";
+import { getAssetById } from "@/services/asset.service";
 import AssetDetail from "@/components/assets/AssetDetail";
 import DeleteButton from "@/components/assets/DeleteButton";
 import type { AssetRow } from "@/types/database.types";

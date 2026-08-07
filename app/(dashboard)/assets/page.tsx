@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getFilteredAssets } from "@/services/assetService";
+import { getFilteredAssets } from "@/services/asset.service";
 import { parseSearchParams } from "@/lib/searchParams";
 import AssetTable from "@/components/assets/AssetTable";
 import SearchBar from "@/components/assets/SearchBar";
