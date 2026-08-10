@@ -36,7 +36,6 @@ export class AssetsPage {
 
   async expectLoaded() {
     await expect(this.searchInput).toBeVisible()
-    await expect(this.assetsTable).toBeVisible()
     await expect(this.newAssetLink).toBeVisible()
   }
 

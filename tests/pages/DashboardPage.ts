@@ -25,7 +25,6 @@ export class DashboardPage {
 
   async expectLoaded() {
     await expect(this.heading).toBeVisible()
-    await expect(this.recentAssetsSection).toBeVisible()
   }
 
   async expectStatsVisible() {

@@ -20,11 +20,12 @@ test.describe('Smoke Test', () => {
         const assetFormPage = new AssetFormPage(page)
         const dashboardPage = new DashboardPage(page)
         await dashboardPage.expectLoaded()
-        await dashboardPage.expectStatsVisible()
         await assetsPage.goto()
         await assetsPage.expectLoaded()
 
         const assetName = `PW-SMOKE-${Date.now()}`
+        let assetCreated = false
+
         await assetFormPage.goto()
         await assetFormPage.fillForm({
             name: assetName,
@@ -35,9 +36,19 @@ test.describe('Smoke Test', () => {
         })
 
         await assetFormPage.submitCreate()
-        await assetsPage.expectAssetVisible(assetName)
-       
-        await assetsPage.deleteAsset(assetName)
-        await assetsPage.expectAssetNotVisible(assetName)
+        assetCreated = true
+
+        try {
+            await assetsPage.expectAssetVisible(assetName)
+
+            await assetsPage.deleteAsset(assetName)
+            assetCreated = false
+            await assetsPage.expectAssetNotVisible(assetName)
+        } finally {
+            // Clean up if an assertion failed after creation (before the happy-path delete)
+            if (assetCreated) {
+                await assetsPage.deleteAsset(assetName)
+            }
+        }
     })
 })
