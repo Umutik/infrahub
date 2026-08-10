@@ -2,8 +2,8 @@ import { test, expect } from '@playwright/test'
 import { LoginPage } from '../../pages/LoginPage'
 import { AssetsPage } from '../../pages/AssetsPage'
 
-const EMAIL = process.env.TEST_USER_EMAIL ?? 'playwright@infrahub.dev'
-const PASSWORD = process.env.TEST_USER_PASSWORD ?? 'PlaywrightPass123!'
+const EMAIL = process.env.TEST_USER_EMAIL!
+const PASSWORD = process.env.TEST_USER_PASSWORD!
 
 test.describe('Assets Page', () => {
   test.beforeEach(async ({ page }) => {

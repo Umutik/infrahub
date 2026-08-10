@@ -2,6 +2,16 @@ import { defineConfig, devices } from '@playwright/test'
 import dotenv from 'dotenv'
 
 dotenv.config({ path: '.env.test' })
+const requiredEnvVars = [
+  'TEST_USER_EMAIL',
+  'TEST_USER_PASSWORD',
+]
+
+for (const envVar of requiredEnvVars) {
+  if (!process.env[envVar]) {
+    throw new Error(`Missing required environment variable: ${envVar}`)
+  }
+}
 
 export default defineConfig({
   testDir: './tests/e2e',

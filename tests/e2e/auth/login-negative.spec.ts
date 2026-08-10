@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../../pages/LoginPage'
 
-const EMAIL = process.env.TEST_USER_EMAIL ?? 'playwright@infrahub.dev'
+const EMAIL = process.env.TEST_USER_EMAIL!
  
 test.describe('Authentication - Login - Negative', () => {
     test('invalid credentials should show error message', async ({page}) => {
