@@ -6,7 +6,8 @@ const envFile =
     ? '.env.production.test'
     : '.env.test'
 
-dotenv.config({ path: envFile })
+dotenv.config({ path: '.env.local' })
+dotenv.config({ path: envFile, override: true })
 
 const requiredEnvVars = [
   'TEST_USER_EMAIL',

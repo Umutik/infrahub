@@ -63,9 +63,19 @@ export class AssetFormPage {
     }
 
     async submitCreate() {
+        const responsePromise = this.page.waitForResponse(
+          response =>
+            response.url().includes('/api/assets') &&
+            response.request().method() === 'POST'
+        )
+      
         await this.createButton.click()
+      
+        const response = await responsePromise
+        expect(response.ok()).toBeTruthy()
+      
         await this.page.waitForURL(/\/assets$/)
-    }
+      }
 
     async submitEdit() {
         await this.saveChangesButton.click()

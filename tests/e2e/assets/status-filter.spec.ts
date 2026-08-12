@@ -18,8 +18,13 @@ test.describe('Asset Page Status Filter', () => {
       
         await assetsPage.goto()
         await assetsPage.expectLoaded()
+        
         await assetsPage.filterByStatus('active')
-      
+
+        await page.waitForURL(url =>
+          url.searchParams.get('status') === 'active'
+        )
+        
         await expect(assetsPage.assetRows.first()).toBeVisible()
       
         const rowCount = await assetsPage.assetRows.count()

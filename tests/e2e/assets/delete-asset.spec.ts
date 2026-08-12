@@ -17,22 +17,22 @@ test.describe('Assets page Delete Asset', () => {
     test('deletes an existing asset', async ({ page }) => {
         const assetsPage = new AssetsPage(page)
         const assetFormPage = new AssetFormPage(page)
-
+      
         const assetName = `PW-DELETE-${Date.now()}`
-
+      
         await assetFormPage.goto()
         await assetFormPage.fillForm({
-            name: assetName,
-            type: 'Router',
-            environment: 'Staging',
-            status: 'active',
-            description: 'This asset was created for deletion test'
+          name: assetName,
+          type: 'Router',
+          environment: 'Staging',
+          status: 'active',
+          description: 'This asset was created for deletion test',
         })
-
+      
         await assetFormPage.submitCreate()
         await assetsPage.expectAssetVisible(assetName)
-
+      
         await assetsPage.deleteAsset(assetName)
         await assetsPage.expectAssetNotVisible(assetName)
+      })
     })
-})

@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test'
+import { Page, Locator, expect } from '@playwright/test'
 
 export class LoginPage {
   readonly emailInput: Locator
@@ -38,6 +38,10 @@ export class LoginPage {
   async loginAndWaitForDashboard(email: string, password: string) {
     await this.login(email, password)
     await this.page.waitForURL('**/dashboard')
+  
+    await expect(
+      this.page.getByRole('heading', { name: 'Dashboard' })
+    ).toBeVisible()
   }
 
   isOnLoginPage(): boolean {

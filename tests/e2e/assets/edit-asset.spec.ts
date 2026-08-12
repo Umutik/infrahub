@@ -7,57 +7,68 @@ const EMAIL = process.env.TEST_USER_EMAIL!
 const PASSWORD = process.env.TEST_USER_PASSWORD!
 
 test.describe('Assets Page Edit Asset', () => {
-    test.beforeEach(async ({ page }) => {
-        const loginPage = new LoginPage(page)
+  test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page)
 
-        await loginPage.goto()
-        await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
-    })
+    await loginPage.goto()
+    await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
+  })
 
-    test('Edit Asset', async ({ page }) => {
-        const assetsPage = new AssetsPage(page)
-        const assetFormPage = new AssetFormPage(page)
+  test('Edit Asset', async ({ page }) => {
+    const assetsPage = new AssetsPage(page)
+    const assetFormPage = new AssetFormPage(page)
 
-        const timestamp = Date.now()
-        const originalName = `PW-EDIT-${timestamp}`
-        const updatedName = `PW-UPDATED-${timestamp}`
+    const timestamp = Date.now()
+    const originalName = `PW-EDIT-${timestamp}`
+    const updatedName = `PW-UPDATED-${timestamp}`
 
-        await assetFormPage.goto()
+    let currentAssetName: string | null = null
 
-        await assetFormPage.fillForm({
-            name: originalName,
-            type: 'Router',
-            environment: 'Production',
-            status: 'active',
-            description: 'Asset created for edit test'
-        })
+    try {
+      await assetFormPage.goto()
 
-        await assetFormPage.submitCreate()
+      await assetFormPage.fillForm({
+        name: originalName,
+        type: 'Router',
+        environment: 'Production',
+        status: 'active',
+        description: 'Asset created for edit test',
+      })
 
-        await assetsPage.expectAssetVisible(originalName)
-        await assetsPage.clickEditForAsset(originalName)
+      await assetFormPage.submitCreate()
+      currentAssetName = originalName
 
-        await assetFormPage.expectFormValues({
-            name: originalName,
-            type: 'Router',
-            environment: 'Production',
-            status: 'active',
-            description: 'Asset created for edit test'
-        })
+      await assetsPage.expectAssetVisible(originalName)
+      await assetsPage.clickEditForAsset(originalName)
 
-        await assetFormPage.fillForm({
-            name: updatedName,
-            type: 'Switch',
-            environment: 'Staging',
-            status: 'inactive',
-            description: 'This asset was edited with new values'
-        })
+      await assetFormPage.expectFormValues({
+        name: originalName,
+        type: 'Router',
+        environment: 'Production',
+        status: 'active',
+        description: 'Asset created for edit test',
+      })
 
-        await assetFormPage.submitEdit()
+      await assetFormPage.fillForm({
+        name: updatedName,
+        type: 'Switch',
+        environment: 'Staging',
+        status: 'inactive',
+        description: 'This asset was edited with new values',
+      })
 
+      await assetFormPage.submitEdit()
+      currentAssetName = updatedName
+
+      await assetsPage.goto()
+
+      await assetsPage.expectAssetVisible(updatedName)
+      await assetsPage.expectAssetNotVisible(originalName)
+    } finally {
+      if (currentAssetName) {
         await assetsPage.goto()
-
-        await assetsPage.expectAssetVisible(updatedName)
-        await assetsPage.expectAssetNotVisible(originalName)
-    })
+        await assetsPage.deleteAsset(currentAssetName)
+      }
+    }
+  })
 })
