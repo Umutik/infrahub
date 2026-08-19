@@ -3,6 +3,8 @@ import StatCard from "@/components/dashboard/StatCard";
 import RecentAssetsTable from "@/components/dashboard/RecentAssetsTable";
 import EmptyDashboard from "@/components/dashboard/EmptyDashboard";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   let stats;
   let recentAssets;
@@ -12,7 +14,9 @@ export default async function DashboardPage() {
       getAssetStats(),
       getRecentAssets(5),
     ]);
-  } catch {
+  } catch (error) {
+    console.error("Failed to load dashboard data:", error);
+
     return (
       <div className="rounded-lg border border-red-200 bg-red-50 px-6 py-4 text-red-700">
         Failed to load dashboard data. Please try refreshing the page.

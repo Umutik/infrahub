@@ -12,16 +12,16 @@ export default async function DashboardLayout({
   const supabase = await createClient();
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!session) {
+  if (!user) {
     redirect("/login");
   }
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar userEmail={session.user.email ?? ""} />
+      <Sidebar userEmail={user.email ?? ""} />
       <div className="flex flex-1 flex-col">
         <Topbar title="Dashboard" />
         <main className="flex-1 p-6">{children}</main>
