@@ -38,10 +38,16 @@ export class LoginPage {
   async loginAndWaitForDashboard(email: string, password: string) {
     await this.login(email, password)
     await this.page.waitForURL('**/dashboard')
-  
+
     await expect(
       this.page.getByRole('heading', { name: 'Dashboard' })
     ).toBeVisible()
+  }
+
+  async expectLoginError(message: string) {
+    await expect(this.signInButton).toBeEnabled({ timeout: 15_000 })
+    await expect(this.errorMessage).toBeVisible()
+    await expect(this.errorMessage).toContainText(message)
   }
 
   isOnLoginPage(): boolean {

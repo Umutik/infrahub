@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { LoginPage } from '../../pages/LoginPage'
 import { AssetsPage } from '../../pages/AssetsPage'
+import { AssetFormPage } from '../../pages/AssetFormPage'
 
 const EMAIL = process.env.TEST_USER_EMAIL!
 const PASSWORD = process.env.TEST_USER_PASSWORD!
@@ -23,11 +24,13 @@ test.describe('Assets Page', () => {
 
   test('should navigate to new asset page', async ({ page }) => {
     const assetsPage = new AssetsPage(page)
+    const assetFormPage = new AssetFormPage(page)
 
     await assetsPage.goto()
     await assetsPage.clickNewAsset()
 
     await expect(page).toHaveURL(/\/assets\/new/)
+    await assetFormPage.expectCreateFormLoaded()
   })
 
   test('should update the URL when searching by name', async ({ page }) => {
