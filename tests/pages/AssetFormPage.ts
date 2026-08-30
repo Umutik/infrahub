@@ -78,7 +78,14 @@ export class AssetFormPage {
     }
 
     async submitEdit() {
+        const responsePromise = this.page.waitForResponse(
+            response =>
+                response.url().includes('/api/assets') &&
+                response.request().method() === 'PUT'
+        )
         await this.saveChangesButton.click()
+        const response = await responsePromise
+        expect(response.ok()).toBeTruthy()
         await this.page.waitForURL(/\/assets\/[^/]+$/)
     }
 
