@@ -68,6 +68,15 @@ export class AssetsPage {
     await this.clearFiltersButton.click()
   }
 
+  async clickViewForAsset(name: string) {
+    const row = this.getRowByAssetName(name)
+
+    await row.getByRole('link', {
+      name,
+      exact: true,
+    }).click()
+  }
+
   async clickNewAsset() {
     await this.newAssetLink.click()
   }
