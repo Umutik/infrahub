@@ -52,6 +52,20 @@ export async function POST(request: Request) {
       );
     }
 
+    const allowedStatuses = [
+      "active",
+      "inactive",
+      "retired",
+      "maintenance",
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: "Invalid status"},
+        {status: 400},
+      );
+    }
+
     const asset = await createAsset({
       ...body,
       owner: user.id,

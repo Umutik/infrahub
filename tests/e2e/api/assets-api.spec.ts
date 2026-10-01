@@ -92,3 +92,109 @@ test('POST /api/assets creates an asset', async ({ page }) => {
 
   expect(getAfterDeleteResponse.status()).toBe(404)
 })
+
+test('POST /api/assets returns 400 for missing required fields', async ({ page }) => {
+  const loginPage = new LoginPage(page)
+
+  await loginPage.goto()
+  await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
+
+  const invalidAssetData = {
+    asset_name: 'Test Asset',
+    asset_type: 'Router',
+    environment: 'Production',
+    description: 'Created by API test', 
+  }
+
+  const invalidResponse = await page.request.post('/api/assets', {
+    data: invalidAssetData
+  })
+  expect(invalidResponse.status()).toBe(400)
+
+  const invalidBody = await invalidResponse.json()
+  expect(invalidBody.error).toBe('Missing required fields')
+})
+
+test('POST /api/assets returns 400 for invalid status', async ({ page }) => {
+  const loginPage = new LoginPage(page)
+
+  await loginPage.goto()
+  await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
+
+  const invalidAssetStatus = {
+    asset_name: 'Test Asset1',
+    asset_type: 'Server',
+    environment: 'Staging',
+    status: 'banana',
+    description: 'Created by API test',
+  }
+   const invalidStatusResponse = await page.request.post('/api/assets', {
+    data: invalidAssetStatus
+  })
+
+   expect(invalidStatusResponse.status()).toBe(400)
+
+   const invalidStatusBody = await invalidStatusResponse.json()
+   expect(invalidStatusBody.error).toBe('Invalid status')
+
+})
+
+test('PUT /api/assets/:id updates an asset', async ({ page }) => {
+  const loginPage = new LoginPage(page)
+
+  await loginPage.goto()
+  await loginPage.loginAndWaitForDashboard(EMAIL, PASSWORD)
+
+  const assetName = `PW-API-${Date.now()}`
+
+  const assetData = {
+    asset_name: assetName,
+    asset_type: 'Router',
+    environment: 'Staging',
+    status: 'retired',
+    description: 'Created by API test',
+  }
+
+  const createResponse = await page.request.post('/api/assets', {
+    data: assetData
+  })
+
+  expect(createResponse.status()).toBe(201)
+  const createBody = await createResponse.json()
+
+  const assetId = createBody.data.id 
+
+  try {
+
+  const updatedData ={ 
+    asset_name: assetName,
+    asset_type: 'Router',
+    environment: 'Production',
+    status: 'active',
+    description: 'Created by API test'
+  }
+  
+  const updateResponse = await page.request.put(`/api/assets/${assetId}`, {
+    data: updatedData
+  })
+
+  expect(updateResponse.status()).toBe(200)
+  const updatedBody = await updateResponse.json()
+  expect(updatedBody.data.environment).toBe(updatedData.environment)
+  expect(updatedBody.data.status).toBe(updatedData.status)
+
+  const getResponse = await page.request.get(`/api/assets/${assetId}`)
+
+  expect(getResponse.status()).toBe(200)
+  
+  const getBody = await getResponse.json()
+
+  
+  expect(getBody.data.environment).toBe(updatedData.environment)
+  expect(getBody.data.status).toBe(updatedData.status)
+
+  } finally {
+  const deleteResponse = await page.request.delete(`/api/assets/${assetId}`)
+  expect(deleteResponse.status()).toBe(204)
+  }
+})
